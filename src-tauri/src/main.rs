@@ -15,6 +15,10 @@ fn main() {
     tauri::Builder::default()
         .setup(move |app| {
             app.set_menu(menu::init(app)?);
+
+            app.on_menu_event(move |window, event| {
+                menu::handle_menu_event(window, event);
+            });
             Ok(())
         })
         .plugin(tauri_plugin_shell::init())

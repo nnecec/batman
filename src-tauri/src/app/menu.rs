@@ -1,7 +1,21 @@
+use std::fs::Metadata;
+
 use tauri::{
-    menu::{Menu, SubmenuBuilder},
-    Wry,
+    menu::{AboutMetadata, Menu, MenuEvent, MenuId, MenuItem, MenuItemBuilder, SubmenuBuilder},
+    AppHandle, Manager, Wry,
 };
+
+pub fn handle_menu_event(window: &AppHandle, event: MenuEvent) {
+    match event.id().0.as_str() {
+        "preferences" => {
+            println!("click preferences");
+            let preferences_window = window.get_window("preferences").unwrap();
+            preferences_window.show().unwrap();
+        }
+
+        _ => {}
+    }
+}
 
 // --- Menu
 pub fn init(app: &tauri::App) -> tauri::Result<Menu<Wry>> {
@@ -10,11 +24,18 @@ pub fn init(app: &tauri::App) -> tauri::Result<Menu<Wry>> {
 
     let name = "Batman";
     let app_menu = SubmenuBuilder::new(handle, name)
-        .text("name", name)
+        .item(&MenuItem::new(handle, "Batman", true, None::<&str>)?)
         .separator()
-        .text("Preferences", "Preferences...")
+        .item(
+            &MenuItemBuilder::new("Preferences...")
+                .id("preferences")
+                .accelerator("CmdOrCtrl+,")
+                .build(handle)?,
+        )
         .text("check_for_updates", "Check for Updates")
+        .separator()
         .services()
+        .separator()
         .hide()
         .hide_others()
         .show_all()

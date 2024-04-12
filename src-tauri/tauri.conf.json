@@ -21,7 +21,8 @@
         "title": "Preferences",
         "width": 600,
         "height": 400,
-        "url": "/preferences"
+        "url": "/preferences",
+        "visible": false
       }
     ],
     "security": {
