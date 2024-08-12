@@ -1,11 +1,10 @@
 import React from 'react'
-
 import ReactDOM from 'react-dom/client'
-
-import App from './pages/app'
+import { Routes } from '@generouted/react-router'
+import './styles/global.css'
 
 ReactDOM.createRoot(document.querySelector('#root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <Routes />
   </React.StrictMode>,
 )

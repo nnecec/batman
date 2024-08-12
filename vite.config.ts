@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import path from 'path'
 
 import react from '@vitejs/plugin-react'
+import generouted from '@generouted/react-router/plugin'
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
@@ -10,7 +11,7 @@ export default defineConfig(async () => ({
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
-  plugins: [react()],
+  plugins: [react(), generouted()],
   resolve: {
     alias: {
       '~': path.resolve(__dirname, './src'),
