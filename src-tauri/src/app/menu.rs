@@ -1,16 +1,15 @@
-use std::fs::Metadata;
-
 use tauri::{
     menu::{AboutMetadata, Menu, MenuEvent, MenuId, MenuItem, MenuItemBuilder, SubmenuBuilder},
     AppHandle, Manager, Wry,
 };
 
+use crate::app;
+
 pub fn handle_menu_event(window: &AppHandle, event: MenuEvent) {
     match event.id().0.as_str() {
         "preferences" => {
             println!("click preferences");
-            let preferences_window = window.get_window("preferences").unwrap();
-            preferences_window.show().unwrap();
+            app::utils::navigate(window, String::from("/preferences"));
         }
 
         _ => {}

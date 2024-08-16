@@ -14,15 +14,8 @@
         "label": "main",
         "title": "batman",
         "width": 800,
-        "height": 600
-      },
-      {
-        "label": "preferences",
-        "title": "Preferences",
-        "width": 600,
-        "height": 400,
-        "url": "/preferences",
-        "visible": false
+        "height": 600,
+        "titleBarStyle": "Overlay"
       }
     ],
     "security": {

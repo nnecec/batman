@@ -1,9 +1,14 @@
 import { Outlet } from 'react-router-dom'
 
-export default function Layout() {
+import { Layout } from '~/components/layout'
+import { ThemeProvider } from '~/components/theme-provider'
+
+export default function App() {
   return (
-    <div className="h-screen select-none">
-      <Outlet />
-    </div>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Layout>
+        <Outlet />
+      </Layout>
+    </ThemeProvider>
   )
 }
