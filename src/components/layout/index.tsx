@@ -6,7 +6,7 @@ import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
 import { Sheet, SheetContent, SheetTrigger } from '~/components/ui/sheet'
 
-import { ThemeToggle } from '../theme-toggle'
+import { ThemeToggle } from '../theme/theme-toggle'
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (

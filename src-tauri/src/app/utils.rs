@@ -1,4 +1,4 @@
-use tauri::Emitter;
+use tauri::{AppHandle, Emitter};
 
 #[derive(Debug, serde::Serialize)]
 struct Navigation {
@@ -6,7 +6,7 @@ struct Navigation {
 }
 
 #[tauri::command]
-pub fn navigate(window: tauri::Window, to: String) {
+pub fn navigate(app: &AppHandle, to: String) {
     let message: Navigation = Navigation { to };
-    window.emit("navigate", &message).unwrap();
+    app.emit("navigate", &message).unwrap();
 }

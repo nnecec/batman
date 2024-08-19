@@ -5,13 +5,12 @@ use tauri::{
 
 use crate::app;
 
-pub fn handle_menu_event(window: &AppHandle, event: MenuEvent) {
+pub fn handle_menu_event(app: &AppHandle, event: MenuEvent) {
     match event.id().0.as_str() {
         "preferences" => {
             println!("click preferences");
-            app::utils::navigate(window, String::from("/preferences"));
+            app::utils::navigate(&app, String::from("/preferences"));
         }
-
         _ => {}
     }
 }
