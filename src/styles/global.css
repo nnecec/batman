@@ -77,3 +77,8 @@
     @apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
   }
 }
+
+webview {
+  height: 100%;
+  width: 100%;
+}

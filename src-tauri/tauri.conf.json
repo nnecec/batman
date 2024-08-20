@@ -12,15 +12,18 @@
     "windows": [
       {
         "label": "main",
-        "title": "batman",
+        "title": "Batman",
         "width": 800,
         "height": 600,
-        "titleBarStyle": "Overlay"
+        "titleBarStyle": "Overlay",
+        "acceptFirstMouse": true,
+        "dragDropEnabled": true
       }
     ],
     "security": {
       "csp": null
-    }
+    },
+    "macOSPrivateApi": true
   },
   "bundle": {
     "active": true,

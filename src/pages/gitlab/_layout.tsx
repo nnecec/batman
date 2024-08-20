@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 
-import { Nav } from '~/components/layout/nav'
+import { Nav } from '~/components/app-provider/nav'
 
 export default function Layout() {
   return (
