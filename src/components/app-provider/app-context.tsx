@@ -1,4 +1,4 @@
-import { useShortcutEvents } from './shortcut-events'
+import { useShortcutEvents } from './events/shortcut-events'
 
 export function AppContext({ children }: { children: React.ReactNode }) {
   useShortcutEvents()
