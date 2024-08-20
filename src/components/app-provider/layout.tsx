@@ -76,7 +76,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </aside>
 
         <main className="flex flex-col" id="content">
-          <div className="min-h-screen p-4 md:gap-8 md:p-10 mx-auto grid w-full max-w-6xl">
+          <div className="h-8 absolute top-0 left-0 right-0" data-tauri-drag-region></div>
+          <div className="min-h-screen p-4 md:gap-8 md:p-10 mx-auto w-full max-w-6xl">
             <div className="mb-6">
               <h1 className="text-4xl font-semibold">{title}</h1>
             </div>
