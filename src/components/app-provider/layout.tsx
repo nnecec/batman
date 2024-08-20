@@ -13,7 +13,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   const title = usePageTitle()
   return (
-    <div className="grid h-screen w-full pl-[53px] select-none">
+    <div className="grid h-screen w-full pl-[69px] select-none">
       <TooltipProvider>
         <aside data-tauri-drag-region className="inset-y fixed left-0 z-20 flex h-full flex-col pt-5 border-r">
           <nav className="grid gap-2 p-4">
@@ -76,7 +76,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </aside>
 
         <main className="flex flex-col" id="content">
-          <div className="h-8 absolute top-0 left-0 right-0" data-tauri-drag-region></div>
+          <div className="h-8" data-tauri-drag-region></div>
           <div className="min-h-screen p-4 md:gap-8 md:p-10 mx-auto w-full max-w-6xl">
             <div className="mb-6">
               <h1 className="text-4xl font-semibold">{title}</h1>
