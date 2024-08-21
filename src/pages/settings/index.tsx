@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 
+import { settingStore } from '~/components/tauri/store'
 import {
   Card,
   CardContent,
@@ -21,21 +22,33 @@ import {
 } from '~/components/ui'
 import { Button } from '~/components/ui/button'
 import { usePageTitle } from '~/hooks'
+import { useEffect } from 'react'
 
 const schema = z.object({
   accessToken: z.string(),
   host: z.string().url({ message: 'Please provide a valid url as your host.' }),
 })
 
+type SettingsType = z.infer<typeof schema>
+
 export default function Page() {
   usePageTitle('Settings')
 
-  const form = useForm<z.infer<typeof schema>>({
+  const form = useForm<SettingsType>({
     resolver: zodResolver(schema),
   })
 
-  function onSubmit(values: z.infer<typeof schema>) {
-    console.log(values)
+  useEffect(() => {
+    settingStore.get<SettingsType>('gitlab').then(data => {
+      data && form.reset(data)
+    })
+  }, [])
+
+  function onSubmit(values: SettingsType) {
+    settingStore.set('gitlab', {
+      accessToken: values.accessToken,
+      host: values.host,
+    })
   }
 
   return (

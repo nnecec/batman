@@ -41,6 +41,18 @@ pub fn init(app: &tauri::App) -> tauri::Result<Menu<Wry>> {
         .quit()
         .build()?;
 
+    let edit_menu = SubmenuBuilder::new(handle, "Edit")
+        .undo()
+        .redo()
+        .separator()
+        .cut()
+        .copy()
+        .paste()
+        .separator()
+        .select_all()
+        .build()?;
+
     menu.append(&app_menu)?;
+    menu.append(&edit_menu)?;
     Ok(menu)
 }
