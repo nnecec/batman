@@ -1,7 +1,10 @@
+import tseslint from 'typescript-eslint'
+
 import nnecec from '@nnecec/eslint-config'
 
 /** @type {import('eslint').Linter.Config[]} */
-export default [
+export default tseslint.config(
+  ...tseslint.configs.recommended,
   ...nnecec({
     react: true,
     tailwindcss: true,
@@ -16,4 +19,4 @@ export default [
   {
     ignores: ['node_modules/**', 'src-tauri/**'],
   },
-]
+)

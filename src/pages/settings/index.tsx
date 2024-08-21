@@ -1,0 +1,89 @@
+import { useForm } from 'react-hook-form'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+} from '~/components/ui'
+import { Button } from '~/components/ui/button'
+import { usePageTitle } from '~/hooks'
+
+const schema = z.object({
+  accessToken: z.string(),
+  host: z.string().url({ message: 'Please provide a valid url as your host.' }),
+})
+
+export default function Page() {
+  usePageTitle('Settings')
+
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
+  })
+
+  function onSubmit(values: z.infer<typeof schema>) {
+    console.log(values)
+  }
+
+  return (
+    <div className="flex w-full flex-col gap-4">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <Card x-chunk="settings-gitlab">
+            <CardHeader>
+              <CardTitle>Gitlab settings</CardTitle>
+              <CardDescription>Used to access your Gitlab account.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <FormField
+                control={form.control}
+                name="host"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Host</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="https://example.gitlab.com" />
+                    </FormControl>
+                    <FormDescription>This is your gitlab host, such as self-hosted gitlab.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="accessToken"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Access token</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormDescription>The accessToken at least have read permission..</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+            <CardFooter className="border-t px-6 py-4">
+              <Button>Save</Button>
+            </CardFooter>
+          </Card>
+        </form>
+      </Form>
+    </div>
+  )
+}

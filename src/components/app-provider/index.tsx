@@ -1,6 +1,6 @@
 import { AppContext } from './app-context'
-import { ThemeProvider } from './theme-provider'
 import { Layout } from './layout'
+import { ThemeProvider } from './theme-provider'
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   return (

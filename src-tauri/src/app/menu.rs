@@ -1,15 +1,15 @@
 use tauri::{
-    menu::{AboutMetadata, Menu, MenuEvent, MenuId, MenuItem, MenuItemBuilder, SubmenuBuilder},
-    AppHandle, Manager, Wry,
+    menu::{Menu, MenuEvent, MenuItem, MenuItemBuilder, SubmenuBuilder},
+    AppHandle, Wry,
 };
 
 use crate::app;
 
 pub fn handle_menu_event(app: &AppHandle, event: MenuEvent) {
     match event.id().0.as_str() {
-        "preferences" => {
-            println!("click preferences");
-            app::utils::navigate(&app, String::from("/preferences"));
+        "settings" => {
+            println!("click settings");
+            app::utils::navigate(&app, String::from("/settings"));
         }
         _ => {}
     }
@@ -25,8 +25,8 @@ pub fn init(app: &tauri::App) -> tauri::Result<Menu<Wry>> {
         .item(&MenuItem::new(handle, "Batman", true, None::<&str>)?)
         .separator()
         .item(
-            &MenuItemBuilder::new("Preferences...")
-                .id("preferences")
+            &MenuItemBuilder::new("Settings...")
+                .id("settings")
                 .accelerator("CmdOrCtrl+,")
                 .build(handle)?,
         )

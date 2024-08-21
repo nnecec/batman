@@ -1,1 +1,1 @@
-pub fn get_preferences_window() {}
+pub fn get_settings_window() {}

@@ -13,6 +13,7 @@ fn greet(name: &str) -> String {
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_store::Builder::new().build())
         .setup(move |app| {
             app.set_menu(menu::init(app)?);
 
