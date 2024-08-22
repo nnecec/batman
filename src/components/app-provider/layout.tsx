@@ -1,8 +1,8 @@
 import { DotsHorizontalIcon, GearIcon } from '@radix-ui/react-icons'
 
+import { usePageTitle } from '~/atoms'
 import { Button } from '~/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip'
-import { usePageTitle } from '~/hooks'
 import { useNavigate } from '~/router'
 
 import { GitlabIcon } from '../icons/gitlab'

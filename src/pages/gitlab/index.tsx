@@ -2,8 +2,8 @@ import { useState } from 'react'
 
 import { invoke } from '@tauri-apps/api/core'
 
+import { usePageTitle } from '~/atoms'
 import { Button, Input } from '~/components/ui'
-import { usePageTitle } from '~/hooks'
 
 export default function Page() {
   usePageTitle('Gitlab')

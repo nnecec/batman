@@ -62,6 +62,9 @@ importers:
       jotai:
         specifier: ^2.9.3
         version: 2.9.3(@types/react@18.3.3)(react@18.3.1)
+      jotai-effect:
+        specifier: ^1.0.0
+        version: 1.0.0(jotai@2.9.3(@types/react@18.3.3)(react@18.3.1))
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -895,31 +898,26 @@ packages:
     resolution: {integrity: sha512-Iu0Kno1vrD7zHQDxOmvweqLkAzjxEVqNhUIXBsZ8hu8Oak7/5VTPrxOEZXYC1nmrBVJp0ZcL2E7lSuuOVaE3+w==}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-arm64-musl@4.13.0':
     resolution: {integrity: sha512-C31QrW47llgVyrRjIwiOwsHFcaIwmkKi3PCroQY5aVq4H0A5v/vVVAtFsI1nfBngtoRpeREvZOkIhmRwUKkAdw==}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-riscv64-gnu@4.13.0':
     resolution: {integrity: sha512-Oq90dtMHvthFOPMl7pt7KmxzX7E71AfyIhh+cPhLY9oko97Zf2C9tt/XJD4RgxhaGeAraAXDtqxvKE1y/j35lA==}
     cpu: [riscv64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-x64-gnu@4.13.0':
     resolution: {integrity: sha512-yUD/8wMffnTKuiIsl6xU+4IA8UNhQ/f1sAnQebmE/lyQ8abjsVyDkyRkWop0kdMhKMprpNIhPmYlCxgHrPoXoA==}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-x64-musl@4.13.0':
     resolution: {integrity: sha512-9RyNqoFNdF0vu/qqX63fKotBh43fJQeYC98hCaf89DYQpv+xu0D8QFSOS0biA7cGuqJFOc1bJ+m2rhhsKcw1hw==}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-win32-arm64-msvc@4.13.0':
     resolution: {integrity: sha512-46ue8ymtm/5PUU6pCvjlic0z82qWkxv54GTJZgHrQUuZnVH+tvvSP0LsozIDsCBFO4VjJ13N68wqrKSeScUKdA==}
@@ -963,28 +961,24 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
 
   '@tauri-apps/cli-linux-arm64-musl@2.0.0-rc.3':
     resolution: {integrity: sha512-ngHS0foffm1xO5gqnDKGeYMKj8ceGmrFP5dDldoaaMQubw1SyFa0pRUjb7fZSYiO7F4SOSa8NYeMqlF9peZmnQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
 
   '@tauri-apps/cli-linux-x64-gnu@2.0.0-rc.3':
     resolution: {integrity: sha512-0/am9pVvuUHGmz32M8ffz1fpLnc08j3nzcRe5wUdL2AxfT+wKMII+Dn99GtCVgcdDW4jSXDMRUwrBkGocGC2OA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@tauri-apps/cli-linux-x64-musl@2.0.0-rc.3':
     resolution: {integrity: sha512-r7mRi8q8TqTFVjb9kAsU7IgwUgno2s8Ip4xwq9psQhlRE3JGEZQmSEcy1jqTjfl6KFh6lJcDR7l+9/EMhL/D3Q==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
 
   '@tauri-apps/cli-win32-arm64-msvc@2.0.0-rc.3':
     resolution: {integrity: sha512-2J6KjmDIQCw6HF1X6/yPcd+JLl7pxrH2zVMGmNllaoWhHeByvRobqFWnT7gcdHaA3dGTo432CwWvOgTgrINQpQ==}
@@ -2126,6 +2120,11 @@ packages:
   jiti@1.21.0:
     resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
     hasBin: true
+
+  jotai-effect@1.0.0:
+    resolution: {integrity: sha512-eCgKKG4BACDzuJGYTu0xZRk1C1MEOvbAhC3L8w7YufQ2lSLORwNX/WFnCuZxLFX0sDLkTUeoUzOYaw8wnXY+UQ==}
+    peerDependencies:
+      jotai: '>=2.5.0'
 
   jotai@2.9.3:
     resolution: {integrity: sha512-IqMWKoXuEzWSShjd9UhalNsRGbdju5G2FrqNLQJT+Ih6p41VNYe2sav5hnwQx4HJr25jq9wRqvGSWGviGG6Gjw==}
@@ -5189,6 +5188,10 @@ snapshots:
       '@pkgjs/parseargs': 0.11.0
 
   jiti@1.21.0: {}
+
+  jotai-effect@1.0.0(jotai@2.9.3(@types/react@18.3.3)(react@18.3.1)):
+    dependencies:
+      jotai: 2.9.3(@types/react@18.3.3)(react@18.3.1)
 
   jotai@2.9.3(@types/react@18.3.3)(react@18.3.1):
     optionalDependencies:

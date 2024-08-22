@@ -1,9 +1,10 @@
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { useAtom } from 'jotai'
 
-import { settingStore } from '~/components/tauri/store'
+import { Setting, settingAtom, settingSchema, usePageTitle } from '~/atoms'
 import {
   Card,
   CardContent,
@@ -22,44 +23,32 @@ import {
   useToast,
 } from '~/components/ui'
 import { Button } from '~/components/ui/button'
-import { usePageTitle } from '~/hooks'
-import { useEffect } from 'react'
 
-const schema = z.object({
-  accessToken: z.string(),
-  host: z.string().url({ message: 'Please provide a valid url as your host.' }),
-})
-
-type SettingsType = z.infer<typeof schema>
+export const Pending = () => {
+  return (
+    <div>
+      <h1>Pending..</h1>
+    </div>
+  )
+}
 
 export default function Page() {
   usePageTitle('Settings')
   const { toast } = useToast()
-
-  const form = useForm<SettingsType>({
-    resolver: zodResolver(schema),
+  const form = useForm<Setting>({
+    resolver: zodResolver(settingSchema),
   })
+  const [setting, setSetting] = useAtom(settingAtom)
 
   useEffect(() => {
-    settingStore.get<SettingsType>('gitlab').then(data => {
-      data && form.reset(data)
-    })
-  }, [])
+    if (setting) form.reset(setting)
+  }, [form, setting])
 
-  function onSubmit(values: SettingsType) {
-    settingStore
-      .set('gitlab', {
-        accessToken: values.accessToken,
-        host: values.host,
-      })
-      .then(
-        () => {
-          toast({ title: 'Saved successfully!' })
-        },
-        () => {
-          toast({ title: 'Failed to save!' })
-        },
-      )
+  function onSubmit(values: Setting) {
+    setSetting({
+      accessToken: values.accessToken,
+      host: values.host,
+    })
   }
 
   return (
