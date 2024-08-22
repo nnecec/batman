@@ -19,6 +19,7 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  useToast,
 } from '~/components/ui'
 import { Button } from '~/components/ui/button'
 import { usePageTitle } from '~/hooks'
@@ -33,6 +34,7 @@ type SettingsType = z.infer<typeof schema>
 
 export default function Page() {
   usePageTitle('Settings')
+  const { toast } = useToast()
 
   const form = useForm<SettingsType>({
     resolver: zodResolver(schema),
@@ -45,10 +47,19 @@ export default function Page() {
   }, [])
 
   function onSubmit(values: SettingsType) {
-    settingStore.set('gitlab', {
-      accessToken: values.accessToken,
-      host: values.host,
-    })
+    settingStore
+      .set('gitlab', {
+        accessToken: values.accessToken,
+        host: values.host,
+      })
+      .then(
+        () => {
+          toast({ title: 'Saved successfully!' })
+        },
+        () => {
+          toast({ title: 'Failed to save!' })
+        },
+      )
   }
 
   return (
