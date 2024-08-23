@@ -10,7 +10,7 @@ export default function Page() {
 
   const [text, setText] = useState('')
   const handleSearch = () => {
-    invoke('fuzzy_search_gitlab', { query: text })
+    invoke('fuzzy_gitlab_search', { text })
   }
 
   return (

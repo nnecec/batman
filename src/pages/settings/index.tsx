@@ -49,6 +49,10 @@ export default function Page() {
       accessToken: values.accessToken,
       host: values.host,
     })
+    toast({
+      description: 'Your settings has been saved.',
+      title: 'Saved!',
+    })
   }
 
   return (

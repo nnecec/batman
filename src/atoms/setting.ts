@@ -1,4 +1,4 @@
-import { atom } from 'jotai'
+import { atomWithStorage, createJSONStorage } from 'jotai/utils'
 import { z } from 'zod'
 
 import { Store } from '@tauri-apps/plugin-store'
@@ -6,7 +6,7 @@ import { Store } from '@tauri-apps/plugin-store'
 // const { Store } = window.__TAURI_PLUGIN_STORE__;
 
 // Store will be loaded automatically when used in JavaScript binding.
-export const settingStore = new Store('store.settings')
+export const settingStore = new Store('setting.bin')
 
 export const settingSchema = z.object({
   accessToken: z.string(),
@@ -15,13 +15,14 @@ export const settingSchema = z.object({
 
 export type Setting = z.infer<typeof settingSchema>
 
-export const settingAtom = atom(
-  async () => {
-    const data = await settingStore.get<Setting>('gitlab')
-    return data
-  },
-  (get, set, newValue) => {
-    settingStore.set('gitlab', newValue)
-    return newValue
-  },
-)
+const storage = createJSONStorage(() => {
+  return {
+    getItem: async (key: string) => await settingStore.get(key),
+    removeItem: async (key: string) => {
+      await settingStore.delete(key)
+    },
+    setItem: async (key: string, value: string) => await settingStore.set(key, value),
+  }
+})
+
+export const settingAtom = atomWithStorage('gitlab', null, storage)
