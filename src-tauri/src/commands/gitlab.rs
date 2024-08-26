@@ -16,7 +16,14 @@ pub fn fuzzy_gitlab_search(app_handle: AppHandle, text: String) {
         // Get a value from the store.
 
         let value = store.get("gitlab").expect("Failed to get value from store");
-        println!("value {} host {}", value, value.get("host").unwrap());
+        println!(
+            "value {} host {}",
+            value,
+            value.get("host").unwrap_or(&json!("z"))
+        );
+
+        let object = json!({ "A": 65, "B": 66, "C": 67 });
+        println!("object {} A {}", &object, *object.get("A").unwrap());
 
         Ok(())
     })
