@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use gitlab::api::{self, projects, Query};
+use gitlab::api::{self, groups, projects, Query};
 use gitlab::Gitlab;
 use serde::Deserialize;
 use serde_json::json;
@@ -27,15 +27,14 @@ pub fn fuzzy_gitlab_search(app_handle: AppHandle, text: String) {
         let access_token = value["accessToken"].as_str().unwrap();
 
         println!("host: {}, accessToken: {}", host, access_token);
-        let client = Gitlab::new(host, access_token).unwrap();
-
-        let endpoint = projects::Project::builder()
-            .project("fed/nile")
-            .build()
-            .unwrap();
-        let project: Project = endpoint.query(&client).unwrap();
-
-        println!("project: {:?}", project);
+        let client = match Gitlab::new(host, access_token) {
+            Ok(client) => {
+                println!("client {:?}", client);
+            }
+            Err(error) => {
+                println!("error {:?}", error);
+            }
+        };
 
         Ok(())
     })
