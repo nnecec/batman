@@ -15,13 +15,13 @@ export const settingSchema = z.object({
 
 export type Setting = z.infer<typeof settingSchema>
 
-const storage = createJSONStorage(() => {
+const storage = createJSONStorage<Setting | null>(() => {
   return {
     getItem: async (key: string) => await settingStore.get(key),
     removeItem: async (key: string) => {
       await settingStore.delete(key)
     },
-    setItem: async (key: string, value: string) => await settingStore.set(key, value),
+    setItem: async (key: string, value: string) => await settingStore.set(key, JSON.parse(value)),
   }
 })
 
