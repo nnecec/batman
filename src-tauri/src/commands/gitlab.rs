@@ -26,12 +26,13 @@ pub fn fuzzy_gitlab_search(app_handle: AppHandle, text: String) {
         let host = value["host"].as_str().unwrap();
         let access_token = value["accessToken"].as_str().unwrap();
 
-        println!("host: {}, access_token: {}", host, access_token);
-        let client = match Gitlab::new("git.dian.so", access_token) {
+        let client = match Gitlab::new(host, access_token) {
             Ok(client) => {
-                println!("client {:?}", client);
-                let pageable_endpoint = projects::Projects::builder().build().unwrap();
-
+                let pageable_endpoint = projects::Projects::builder()
+                    .order_by(projects::ProjectOrderBy::UpdatedAt)
+                    .sort(api::common::SortOrder::Descending)
+                    .build()
+                    .unwrap();
                 let first_page: Vec<Project> = pageable_endpoint.query(&client).unwrap();
 
                 println!("first_page {:?}", first_page);

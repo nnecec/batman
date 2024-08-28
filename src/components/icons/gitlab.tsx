@@ -1,14 +1,18 @@
-import { IconProps } from '@radix-ui/react-icons/dist/types'
 import { forwardRef } from 'react'
 
-export const GitlabIcon = forwardRef<SVGSVGElement, IconProps>(({ color = 'currentColor', ...props }, ref) => {
+import { IconProps } from '@radix-ui/react-icons/dist/types'
+
+export const GitlabIcon = forwardRef<SVGSVGElement, IconProps>(function GitlabIcon(
+  { color = 'currentColor', ...props },
+  ref,
+) {
   return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" {...props} ref={ref}>
+    <svg fill="none" height="15" viewBox="0 0 15 15" width="15" xmlns="http://www.w3.org/2000/svg" {...props} ref={ref}>
       <path
+        clipRule="evenodd"
         d="M 11.164062 6.738281 L 11.152344 6.710938 L 10.121094 4.019531 C 10.101562 3.964844 10.0625 3.921875 10.015625 3.890625 C 9.917969 3.832031 9.792969 3.835938 9.699219 3.910156 C 9.65625 3.945312 9.625 3.992188 9.609375 4.046875 L 8.910156 6.179688 L 6.089844 6.179688 L 5.394531 4.046875 C 5.378906 3.992188 5.347656 3.945312 5.300781 3.90625 C 5.210938 3.835938 5.085938 3.828125 4.984375 3.890625 C 4.9375 3.921875 4.902344 3.964844 4.878906 4.019531 L 3.847656 6.710938 L 3.835938 6.738281 C 3.53125 7.535156 3.789062 8.4375 4.472656 8.953125 L 4.476562 8.953125 L 4.484375 8.960938 L 6.054688 10.140625 L 6.835938 10.726562 L 7.308594 11.085938 C 7.421875 11.171875 7.578125 11.171875 7.691406 11.085938 L 8.167969 10.726562 L 8.945312 10.140625 L 10.527344 8.953125 L 10.53125 8.953125 C 11.210938 8.4375 11.46875 7.535156 11.164062 6.738281 Z M 11.164062 6.738281 "
         fill={color}
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
       />
     </svg>
   )

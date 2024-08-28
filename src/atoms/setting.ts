@@ -1,4 +1,5 @@
 import { atomWithStorage, createJSONStorage } from 'jotai/utils'
+import { isURL } from 'validator'
 import { z } from 'zod'
 
 import { Store } from '@tauri-apps/plugin-store'
@@ -10,18 +11,26 @@ export const settingStore = new Store('setting.bin')
 
 export const settingSchema = z.object({
   accessToken: z.string(),
-  host: z.string().url({ message: 'Please provide a valid url as your host.' }),
+  host: z.string().refine(val => isURL(val), {
+    message: 'Please provide a valid url as your host.',
+  }),
 })
 
 export type Setting = z.infer<typeof settingSchema>
 
-const storage = createJSONStorage<Setting | null>(() => {
+const storage = createJSONStorage<null | Setting>(() => {
   return {
-    getItem: async (key: string) => await settingStore.get(key),
+    getItem: async (key: string) => {
+      const data = await settingStore.get(key)
+      return JSON.stringify(data)
+    },
     removeItem: async (key: string) => {
       await settingStore.delete(key)
     },
-    setItem: async (key: string, value: string) => await settingStore.set(key, JSON.parse(value)),
+    setItem: async (key: string, value: string) => {
+      await settingStore.set(key, JSON.parse(value))
+      settingStore.save()
+    },
   }
 })
 
