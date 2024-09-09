@@ -72,12 +72,15 @@ export default function Page() {
                   <FormItem>
                     <FormLabel>Host</FormLabel>
                     <FormControl>
-                      <div className="flex items-center gap-2">
-                        <span>https://</span>
-                        <Input {...field} placeholder="example.gitlab.com" />
-                      </div>
+                      <Input
+                        {...field}
+                        defaultValue="https://www.gitlab.com"
+                        placeholder="https://example.gitlab.com"
+                      />
                     </FormControl>
-                    <FormDescription>This is your gitlab host, such as self-hosted gitlab.</FormDescription>
+                    <FormDescription>
+                      Optional configure your self-hosted gitlab. Official gitlab as host is default.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

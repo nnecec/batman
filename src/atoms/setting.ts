@@ -1,5 +1,4 @@
 import { atomWithStorage, createJSONStorage } from 'jotai/utils'
-import { isURL } from 'validator'
 import { z } from 'zod'
 
 import { Store } from '@tauri-apps/plugin-store'
@@ -11,7 +10,7 @@ export const settingStore = new Store('setting.bin')
 
 export const settingSchema = z.object({
   accessToken: z.string(),
-  host: z.string().refine(val => isURL(val), {
+  host: z.string().url({
     message: 'Please provide a valid url as your host.',
   }),
 })
