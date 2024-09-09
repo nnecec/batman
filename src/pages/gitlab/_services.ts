@@ -11,3 +11,16 @@ export const useGroups = () => {
     queryKey: ['groups'],
   })
 }
+
+export const useSearchCode = (query?: { group: string; search: string }) => {
+  const gitlab = useGitlabApi()
+
+  return useQuery({
+    enabled: !!gitlab && !!query,
+    queryFn: () =>
+      gitlab?.Search.all('blobs', query.search, {
+        groupId: query.group,
+      }),
+    queryKey: ['snippets'],
+  })
+}
