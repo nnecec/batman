@@ -12,8 +12,9 @@ export const useGitlabApi = () => {
   return useMemo(() => {
     if (setting?.accessToken && setting?.host) {
       const api = new Gitlab({
-        host: setting?.host,
-        token: setting?.accessToken,
+        host: setting.host,
+        queryTimeout: null,
+        token: setting.accessToken,
       })
       return api
     }

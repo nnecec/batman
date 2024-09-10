@@ -84,4 +84,15 @@
   h1 {
     @apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
   }
+
+  * {
+    /*FireFox*/
+    scrollbar-width: none;
+    /*IE10+*/
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+  }
+  *::-webkit-scrollbar {
+    /*Chrome, Safari, Edge*/
+    display: none;
+  }
 }
