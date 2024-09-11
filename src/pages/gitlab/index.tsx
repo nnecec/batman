@@ -19,6 +19,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Skeleton,
   Tabs,
   TabsList,
   TabsTrigger,
@@ -39,10 +40,10 @@ export default function Page() {
   const [input, setInput] = useAtom(gitlabInputAtom)
   const [search, setSearch] = useAtom(gitlabSearchAtom)
   const { data: groups } = useGroups()
-  const { data: projects } = useProjectsByGroupId(groupId)
+  const { data: projects, isPending: isProjectsPending } = useProjectsByGroupId(groupId)
   const currentProject = projects?.find(project => project.id === Number(projectId))
 
-  const { data: searchResult } = useSearchInProject({ projectId, search })
+  const { data: searchResult, isLoading: isSearchResultPending } = useSearchInProject({ projectId, search })
 
   function handleSearch() {
     setSearch(input)
@@ -50,7 +51,7 @@ export default function Page() {
 
   return (
     <div className="space-y-2">
-      <div className="flex gap-2">
+      <div className="flex gap-2 sticky top-6">
         <Select
           onValueChange={value => {
             setGroupId(value)
@@ -59,7 +60,7 @@ export default function Page() {
           }}
           value={groupId}
         >
-          <SelectTrigger className="w-[220px] flex-initial">
+          <SelectTrigger className="w-[220px] flex-initial bg-background">
             <SelectValue placeholder="Select a group" />
           </SelectTrigger>
           <SelectContent>
@@ -72,9 +73,11 @@ export default function Page() {
             </SelectGroup>
           </SelectContent>
         </Select>
-        {projects?.length && projects?.length > 0 ?
+        {isProjectsPending ?
+          <Skeleton className="flex-initial rounded-lg h-[36px] w-[60%] bg-foreground/20" />
+        : projects?.length && projects?.length > 0 ?
           <Tabs
-            className="flex-1 overflow-x-auto"
+            className="flex-1 overflow-x-auto rounded-lg"
             onValueChange={value => {
               setProjectId(value)
             }}
@@ -107,27 +110,49 @@ export default function Page() {
         </div>
       )}
 
-      {searchResult?.map(item => {
-        return (
-          <Card key={item.path + item.id + item.startline}>
+      {isSearchResultPending ?
+        Array.from({ length: 3 }).map((_, i) => (
+          <Card key={i}>
             <CardHeader>
-              <CardDescription
-                className="cursor-pointer"
-                onClick={() =>
-                  handleOpenFile(
-                    `${currentProject?.web_url}/-/blob/${currentProject?.default_branch}/${item.path}#L${item.startline}`,
-                  )
-                }
-              >
-                {item.path} <ExternalLinkIcon className="inline-block" />
+              <CardDescription>
+                <Skeleton className="w-[300px] h-[20px] bg-foreground/20 rounded-lg" />
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Code text={item.data} />
+              <div className="animate-pulse h-[92px] bg-foreground/20 rounded-lg"></div>
             </CardContent>
           </Card>
-        )
-      })}
+        ))
+      : searchResult && searchResult.length > 0 ?
+        searchResult.map(item => {
+          return (
+            <Card key={item.path + item.id + item.startline}>
+              <CardHeader>
+                <CardDescription
+                  className="cursor-pointer text-pretty"
+                  onClick={() =>
+                    handleOpenFile(
+                      `${currentProject?.web_url}/-/blob/${currentProject?.default_branch}/${item.path}#L${item.startline}`,
+                    )
+                  }
+                >
+                  {item.path} <ExternalLinkIcon className="inline-block" />
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Code text={item.data} />
+              </CardContent>
+            </Card>
+          )
+        })
+      : searchResult?.length === 0 ?
+        <div className="items-center justify-center pt-20">
+          <div className="flex flex-col items-center gap-1 text-center">
+            <h3 className="text-2xl font-bold tracking-tight">There has no matched result.</h3>
+            <p className="text-sm text-muted-foreground">You can change a project or query content for more results.</p>
+          </div>
+        </div>
+      : null}
     </div>
   )
 }
