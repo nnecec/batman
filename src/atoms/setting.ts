@@ -10,9 +10,12 @@ export const settingStore = new Store('setting.bin')
 
 export const settingSchema = z.object({
   accessToken: z.string(),
-  host: z.string().url({
-    message: 'Please provide a valid url as your host.',
-  }),
+  host: z
+    .string()
+    .url({
+      message: 'Please provide a valid url as your host.',
+    })
+    .optional(),
 })
 
 export type Setting = z.infer<typeof settingSchema>

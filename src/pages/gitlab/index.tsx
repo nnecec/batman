@@ -1,5 +1,8 @@
 import { useAtom } from 'jotai'
 
+import { ExternalLinkIcon } from '@radix-ui/react-icons'
+import { Command } from '@tauri-apps/plugin-shell'
+
 import { usePageTitle } from '~/atoms'
 import { gitlabGroupIdAtom, gitlabInputAtom, gitlabProjectIdAtom, gitlabSearchAtom } from '~/atoms/gitlab'
 import { Code } from '~/components/code'
@@ -8,9 +11,7 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
-  CardTitle,
   Input,
   Select,
   SelectContent,
@@ -25,6 +26,11 @@ import {
 
 import { useGroups, useProjectsByGroupId, useSearchInProject } from './_services'
 
+async function handleOpenFile(url: string) {
+  await Command.create('open', [url]).execute()
+  await Command.create('exec-sh', ['-c', "echo 'Hello World!'"]).execute()
+}
+
 export default function Page() {
   usePageTitle('Gitlab')
 
@@ -34,9 +40,9 @@ export default function Page() {
   const [search, setSearch] = useAtom(gitlabSearchAtom)
   const { data: groups } = useGroups()
   const { data: projects } = useProjectsByGroupId(groupId)
+  const currentProject = projects?.find(project => project.id === Number(projectId))
 
   const { data: searchResult } = useSearchInProject({ projectId, search })
-  console.log(searchResult)
 
   function handleSearch() {
     setSearch(input)
@@ -101,20 +107,27 @@ export default function Page() {
         </div>
       )}
 
-      {searchResult?.map(item => (
-        <Card key={item.path + item.id + item.startline}>
-          <CardHeader>
-            <CardDescription>{item.filename}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Code content={item.data} />
-          </CardContent>
-          <CardFooter className="flex gap-2">
-            <Button>Open in default browser</Button>
-            <Button>Open in VSCode</Button>
-          </CardFooter>
-        </Card>
-      ))}
+      {searchResult?.map(item => {
+        return (
+          <Card key={item.path + item.id + item.startline}>
+            <CardHeader>
+              <CardDescription
+                className="cursor-pointer"
+                onClick={() =>
+                  handleOpenFile(
+                    `${currentProject?.web_url}/-/blob/${currentProject?.default_branch}/${item.path}#L${item.startline}`,
+                  )
+                }
+              >
+                {item.path} <ExternalLinkIcon className="inline-block" />
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Code text={item.data} />
+            </CardContent>
+          </Card>
+        )
+      })}
     </div>
   )
 }

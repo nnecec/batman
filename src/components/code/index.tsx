@@ -1,39 +1,22 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import rehypeStringify from 'rehype-stringify'
-import remarkRehype from 'remark-rehype'
-import { unified } from 'unified'
+import hljs from 'highlight.js'
 
-import { useAsyncEffect } from '@reactuses/core'
-import rehypeShiki from '@shikijs/rehype'
+import 'highlight.js/styles/nord.css'
 
-const transform = async (content: string) => {
-  return await unified()
-    .use(remarkRehype)
-    .use(rehypeShiki, {
-      // or `theme` for a single theme
-      themes: {
-        dark: 'vitesse-dark',
-        light: 'vitesse-light',
-      },
-    })
-    .use(rehypeStringify)
-    .process(content)
-}
+export function Code({ text }: { text: string }) {
+  const [content, setContent] = useState<null | string>(null)
+  useEffect(() => {
+    setContent(hljs.highlightAuto(text, ['javascript', 'typescript']).value)
+  }, [text])
 
-export function Code({ content }: { content: string }) {
-  const [transformContent, setTransformContent] = useState<any>()
-
-  // useAsyncEffect(
-  //   async () => {
-  //     const res = await transform(content)
-  //     console.log(res)
-
-  //     // setTransformContent(res.toString())
-  //   },
-  //   undefined,
-  //   [content],
-  // )
-
-  return <div>{content}</div>
+  return (
+    <pre className="overflow-auto rounded-md bg-muted p-4 font-mono text-sm">
+      <code
+        dangerouslySetInnerHTML={{
+          __html: content || '',
+        }}
+      />
+    </pre>
+  )
 }

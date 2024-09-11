@@ -24,14 +24,6 @@ import {
 } from '~/components/ui'
 import { Button } from '~/components/ui/button'
 
-export const Pending = () => {
-  return (
-    <div>
-      <h1>Pending..</h1>
-    </div>
-  )
-}
-
 export default function Page() {
   usePageTitle('Settings')
   const { toast } = useToast()
@@ -47,7 +39,7 @@ export default function Page() {
   function onSubmit(values: Setting) {
     setSetting({
       accessToken: values.accessToken,
-      host: values.host,
+      host: values.host || 'https://www.gitlab.com',
     })
     toast({
       description: 'Your settings has been saved.',
@@ -72,11 +64,7 @@ export default function Page() {
                   <FormItem>
                     <FormLabel>Host</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        defaultValue="https://www.gitlab.com"
-                        placeholder="https://example.gitlab.com"
-                      />
+                      <Input {...field} placeholder="https://example.gitlab.com" />
                     </FormControl>
                     <FormDescription>
                       Optional configure your self-hosted gitlab. Official gitlab as host is default.

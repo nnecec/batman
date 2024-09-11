@@ -8,9 +8,6 @@ pub fn run() {
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_clipboard_manager::init())
         .plugin(tauri_plugin_store::Builder::new().build())
-        .invoke_handler(tauri::generate_handler![
-            commands::gitlab::fuzzy_gitlab_search
-        ])
         .setup(move |app| {
             app.set_menu(menu::init(app)?);
             app.on_menu_event(move |app, event| {

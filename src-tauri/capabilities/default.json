@@ -12,8 +12,23 @@
     "core:resources:default",
     "core:menu:default",
     "core:tray:default",
-    "shell:allow-open",
     "store:default",
-    "clipboard-manager:default"
+    "clipboard-manager:default",
+    "shell:default",
+    {
+      "identifier": "shell:allow-execute",
+      "allow": [
+        {
+          "name": "open",
+          "cmd": "open",
+          "args": [
+            {
+              "validator": "\\S+"
+            }
+          ],
+          "sidecar": false
+        }
+      ]
+    }
   ]
 }
