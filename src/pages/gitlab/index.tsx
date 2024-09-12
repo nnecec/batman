@@ -40,7 +40,7 @@ export default function Page() {
   const [input, setInput] = useAtom(gitlabInputAtom)
   const [search, setSearch] = useAtom(gitlabSearchAtom)
   const { data: groups } = useGroups()
-  const { data: projects, isPending: isProjectsPending } = useProjectsByGroupId(groupId)
+  const { data: projects, isLoading: isProjectsPending } = useProjectsByGroupId(groupId)
   const currentProject = projects?.find(project => project.id === Number(projectId))
 
   const { data: searchResult, isLoading: isSearchResultPending } = useSearchInProject({ projectId, search })
@@ -51,7 +51,7 @@ export default function Page() {
 
   return (
     <div className="space-y-2">
-      <div className="flex gap-2 sticky top-6">
+      <div className="sticky top-6 flex gap-2">
         <Select
           onValueChange={value => {
             setGroupId(value)
@@ -74,7 +74,7 @@ export default function Page() {
           </SelectContent>
         </Select>
         {isProjectsPending ?
-          <Skeleton className="flex-initial rounded-lg h-[36px] w-[60%] bg-foreground/20" />
+          <Skeleton className="h-[36px] w-3/5 flex-initial rounded-lg bg-foreground/20" />
         : projects?.length && projects?.length > 0 ?
           <Tabs
             className="flex-1 overflow-x-auto rounded-lg"
@@ -115,11 +115,11 @@ export default function Page() {
           <Card key={i}>
             <CardHeader>
               <CardDescription>
-                <Skeleton className="w-[300px] h-[20px] bg-foreground/20 rounded-lg" />
+                <Skeleton className="h-[20px] w-[300px] rounded-lg bg-foreground/20" />
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="animate-pulse h-[92px] bg-foreground/20 rounded-lg"></div>
+              <div className="h-[92px] animate-pulse rounded-lg bg-foreground/20" />
             </CardContent>
           </Card>
         ))
@@ -148,8 +148,8 @@ export default function Page() {
       : searchResult?.length === 0 ?
         <div className="items-center justify-center pt-20">
           <div className="flex flex-col items-center gap-1 text-center">
-            <h3 className="text-2xl font-bold tracking-tight">There has no matched result.</h3>
-            <p className="text-sm text-muted-foreground">You can change a project or query content for more results.</p>
+            <h3 className="text-2xl font-bold tracking-tight">There has No matching results.</h3>
+            <p className="text-sm text-muted-foreground">You can change a project or query content and try again.</p>
           </div>
         </div>
       : null}
