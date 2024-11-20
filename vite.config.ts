@@ -4,6 +4,7 @@ import generouted from '@generouted/react-router/plugin'
 import { defineConfig } from 'vite'
 
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
@@ -12,7 +13,7 @@ export default defineConfig(async () => ({
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
-  plugins: [react(), generouted()],
+  plugins: [react(), generouted(), tailwindcss()],
   resolve: {
     alias: {
       '~': path.resolve(__dirname, './src'),

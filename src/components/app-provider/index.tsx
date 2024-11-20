@@ -1,3 +1,6 @@
+import { Provider } from 'jotai'
+
+import { store } from '~/atoms'
 import { Toaster } from '~/components/ui'
 
 import { AppContext } from './app-context'
@@ -8,12 +11,14 @@ import { ThemeProvider } from './theme-provider'
 export function AppProvider({ children }: { children: React.ReactNode }) {
   return (
     <AppContext>
-      <QueryProvider>
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <Layout>{children}</Layout>
-          <Toaster />
-        </ThemeProvider>
-      </QueryProvider>
+      <Provider store={store}>
+        <QueryProvider>
+          <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+            <Layout>{children}</Layout>
+            <Toaster />
+          </ThemeProvider>
+        </QueryProvider>
+      </Provider>
     </AppContext>
   )
 }

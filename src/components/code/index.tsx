@@ -1,22 +1,33 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-import hljs from 'highlight.js'
+import { useAsyncEffect } from '@reactuses/core'
 
-import 'highlight.js/styles/nord.css'
+import { codeToHtml } from 'shiki'
 
 export function Code({ text }: { text: string }) {
   const [content, setContent] = useState<null | string>(null)
-  useEffect(() => {
-    setContent(hljs.highlightAuto(text, ['javascript', 'typescript']).value)
-  }, [text])
+
+  useAsyncEffect(
+    async () => {
+      const html = await codeToHtml(text, {
+        lang: 'javascript',
+        themes: {
+          light: 'vitesse-light',
+          dark: 'vitesse-dark',
+        },
+      })
+      setContent(html)
+    },
+    undefined,
+    [text],
+  )
 
   return (
-    <pre className="overflow-auto rounded-md bg-muted p-4 font-mono text-sm">
-      <code
-        dangerouslySetInnerHTML={{
-          __html: content || '',
-        }}
-      />
-    </pre>
+    <div
+      className="block font-mono text-sm"
+      dangerouslySetInnerHTML={{
+        __html: content || '',
+      }}
+    ></div>
   )
 }

@@ -81,7 +81,7 @@ export default function Page() {
                   <FormItem>
                     <FormLabel>Access token</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} type="password" />
                     </FormControl>
                     <FormDescription>The accessToken at least have read permission..</FormDescription>
                     <FormMessage />

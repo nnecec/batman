@@ -4,8 +4,10 @@ import { usePageTitle } from '~/atoms'
 import { Button } from '~/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip'
 import { useNavigate } from '~/router'
+import { cn } from '~/utils'
 
 import { GitlabIcon } from '../icons/gitlab'
+import { DotPattern } from '../ui'
 import { ThemeToggle } from './theme-toggle'
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -60,13 +62,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </nav>
         </aside>
 
-        <main className="flex flex-col overflow-y-auto">
+        <main className="flex min-h-screen flex-col overflow-y-auto">
           <div className="absolute inset-x-0 top-0 h-8" data-tauri-drag-region />
-          <div className="mx-auto min-h-screen w-full max-w-6xl p-4 md:gap-8 md:p-10">
+          <div className="mx-auto w-full max-w-6xl flex-1 grow p-6 md:gap-8 md:p-10">
             <div className="mb-6">
               <h1 className="text-4xl font-semibold">{title}</h1>
             </div>
-            <div>{children}</div>
+            <div className="min-h-[50vh]">{children}</div>
+          </div>
+          <div className="h-[300px] shrink-0 overflow-hidden">
+            <div className="relative flex h-[500px] w-full shrink-0 flex-col items-center justify-center overflow-hidden rounded-lg bg-background pr-[69px] md:shadow-xl">
+              <DotPattern className={cn('[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]')} />
+            </div>
           </div>
         </main>
       </TooltipProvider>

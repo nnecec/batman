@@ -7,7 +7,7 @@ export default tseslint.config(
   ...tseslint.configs.recommended,
   ...nnecec({
     react: true,
-    tailwindcss: true,
+    // tailwindcss: true,
     typescript: true,
   }),
   {

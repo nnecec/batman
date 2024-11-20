@@ -1,3 +1,5 @@
+import { Navigate } from 'react-router-dom'
+
 export default function Page() {
-  return <div>Home1</div>
+  return <Navigate to="/gitlab" />
 }
