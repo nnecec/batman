@@ -9,7 +9,7 @@ import { LazyStore } from '@tauri-apps/plugin-store'
 export const settingStore = new LazyStore('setting.bin')
 
 export const settingSchema = z.object({
-  accessToken: z.string(),
+  accessToken: z.string().min(1),
   host: z
     .string()
     .url({

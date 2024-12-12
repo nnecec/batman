@@ -3,17 +3,46 @@ import { DotsHorizontalIcon, GearIcon } from '@radix-ui/react-icons'
 import { usePageTitle } from '~/atoms'
 import { Button } from '~/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip'
-import { useNavigate } from '~/router'
+import { useNavigate } from 'react-router'
 import { cn } from '~/utils'
 
 import { GitlabIcon } from '../icons/gitlab'
-import { DotPattern } from '../ui'
 import { ThemeToggle } from './theme-toggle'
+import { DotPattern } from '../ui'
+import { useEffect } from 'react'
+
+function disableMenu() {
+  if (window.location.hostname !== 'tauri.localhost') {
+    return
+  }
+
+  document.addEventListener(
+    'contextmenu',
+    e => {
+      e.preventDefault()
+      return false
+    },
+    { capture: true },
+  )
+
+  document.addEventListener(
+    'selectstart',
+    e => {
+      e.preventDefault()
+      return false
+    },
+    { capture: true },
+  )
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate()
 
   const title = usePageTitle()
+
+  useEffect(() => {
+    disableMenu()
+  }, [])
 
   return (
     <div className="grid h-screen w-full select-none pl-[69px]">

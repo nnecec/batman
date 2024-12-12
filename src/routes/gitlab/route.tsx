@@ -25,8 +25,8 @@ import {
   SelectValue,
 } from '~/components/ui'
 
-import { CardSkeleton, RadioSkeleton } from './_components/list-skeleton'
-import { useGroups, useProjectsAutoQuery, useSearchInProject } from './_services'
+import { CardSkeleton } from './_components/list-skeleton'
+import { useGroups, useProjectsAutoQuery, useSearchInProject } from './_components/services'
 
 async function handleOpenFile(url: string) {
   await Command.create('open', [url]).execute()
@@ -58,13 +58,14 @@ export default function Page() {
   const currentProject = projects?.find(project => project.id === Number(projectId))
 
   function handleSearch() {
+    if (input.length < 3) return
     setSearch(input)
   }
 
   return (
     <div className="space-y-3">
       <div className="flex">
-        <div className="flex flex-col w-[150px] shrink-0 p-2 sticky top-6">
+        <div className="flex flex-col w-[180px] shrink-0 p-2 gap-3">
           <Select
             onValueChange={value => {
               setGroupId(value)
@@ -91,8 +92,9 @@ export default function Page() {
               }
             </SelectContent>
           </Select>
+
           {projects?.length && projects?.length > 0 ?
-            <ScrollArea className="h-[50vh] w-full rounded-md shrink-0 p-3 sticky top-6">
+            <ScrollArea className="max-h-[50vh] w-full rounded-md p-3 sticky">
               <RadioGroup value={projectId} onValueChange={value => setProjectId(value)}>
                 <div className="space-y-2">
                   {projects.map(project => (
@@ -101,15 +103,16 @@ export default function Page() {
                       <Label htmlFor={String(project.id)}>{project.name}</Label>
                     </div>
                   ))}
-                  {isProjectsLoading ? Array.from({ length: 3 }).map((_, i) => <RadioSkeleton key={i} />) : null}
-                  {hasNextPatchProjects ?
-                    <Button onClick={() => fetchNextPatchProjects()} size="sm">
-                      Load more
-                    </Button>
-                  : null}
                 </div>
               </RadioGroup>
             </ScrollArea>
+          : null}
+          {hasNextPatchProjects ?
+            <Button onClick={() => fetchNextPatchProjects()} size="sm" disabled={isProjectsLoading}>
+              {isProjectsLoading ?
+                <UpdateIcon className="animate-spin" />
+              : 'Inspect more repos'}
+            </Button>
           : null}
         </div>
         <div className="p-2 grow space-y-3 overflow-hidden min-w-0">
@@ -121,12 +124,13 @@ export default function Page() {
                   handleSearch()
                 }
               }}
-              placeholder="Input query string"
+              placeholder="Input query string, at least 3 characters"
               value={input}
               className="grow"
               disabled={!groupId}
+              minLength={3}
             />
-            <Button onClick={handleSearch} disabled={isSearchResultLoading}>
+            <Button onClick={handleSearch} disabled={isSearchResultLoading || input.length < 3}>
               Search
             </Button>
           </div>

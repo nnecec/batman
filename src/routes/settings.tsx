@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -27,19 +26,16 @@ import { Button } from '~/components/ui/button'
 export default function Page() {
   usePageTitle('Settings')
   const { toast } = useToast()
+  const [setting, setSetting] = useAtom(settingAtom)
   const form = useForm<Setting>({
     resolver: zodResolver(settingSchema),
+    values: setting ?? { accessToken: '', host: 'https://www.gitlab.com' },
   })
-  const [setting, setSetting] = useAtom(settingAtom)
-
-  useEffect(() => {
-    if (setting) form.reset(setting)
-  }, [form, setting])
 
   function onSubmit(values: Setting) {
     setSetting({
       accessToken: values.accessToken,
-      host: values.host || 'https://www.gitlab.com',
+      host: values.host,
     })
     toast({
       description: 'Your settings has been saved.',
@@ -64,7 +60,7 @@ export default function Page() {
                   <FormItem>
                     <FormLabel>Host</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="https://example.gitlab.com" />
+                      <Input {...field} placeholder="https://www.gitlab.com" />
                     </FormControl>
                     <FormDescription>
                       Optional configure your self-hosted gitlab. Official gitlab as host is default.
