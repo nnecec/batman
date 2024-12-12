@@ -27,4 +27,7 @@ export default defineConfig(async () => ({
       ignored: ['**/src-tauri/**'],
     },
   },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router'],
+  },
 }))

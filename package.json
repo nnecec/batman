@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc && react-router build",
+    "build": "tsc && NODE_ENV=production react-router build",
     "dev": "react-router dev",
     "tauri": "tauri"
   },
