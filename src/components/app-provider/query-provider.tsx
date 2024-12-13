@@ -42,7 +42,7 @@ const queryClient = new QueryClient({
             description: 'Please check your GitLab access token',
             title: 'Unauthorized',
           })
-        } else if ((error.cause as any).response?.status === 404) {
+        } else if ((error.cause as any).response?.status === 403) {
           toast({
             description:
               'The request requires higher privileges than provided by the access token. You should give api or read_api permission.',

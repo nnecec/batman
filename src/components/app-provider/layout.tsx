@@ -12,21 +12,12 @@ import { DotPattern } from '../ui'
 import { useEffect } from 'react'
 
 function disableMenu() {
-  if (window.location.hostname !== 'tauri.localhost') {
+  if (window.location.protocol !== 'tauri') {
     return
   }
 
   document.addEventListener(
     'contextmenu',
-    e => {
-      e.preventDefault()
-      return false
-    },
-    { capture: true },
-  )
-
-  document.addEventListener(
-    'selectstart',
     e => {
       e.preventDefault()
       return false
