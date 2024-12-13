@@ -79,7 +79,10 @@ export default function Page() {
                     <FormControl>
                       <Input {...field} type="password" />
                     </FormControl>
-                    <FormDescription>The accessToken at least have read permission..</FormDescription>
+                    <FormDescription>
+                      The accessToken at least has <span className="font-bold text-foreground">read_api</span> or{' '}
+                      <span className="font-bold text-foreground">api</span> permission.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
