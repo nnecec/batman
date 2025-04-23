@@ -4,11 +4,11 @@ import { usePageTitle } from '~/atoms'
 import { Button } from '~/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '~/components/ui/tooltip'
 import { useNavigate } from 'react-router'
-import { cn } from '~/utils'
+import { cn } from '~/lib/utils'
 
 import { GitlabIcon } from '../icons/gitlab'
 import { ThemeToggle } from './theme-toggle'
-import { DotPattern } from '../ui'
+import { DotPattern } from '../magicui'
 import { useEffect } from 'react'
 
 function disableMenu() {
@@ -92,7 +92,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </div>
           <div className="h-[300px] shrink-0 overflow-hidden">
             <div className="relative flex h-[500px] w-full shrink-0 flex-col items-center justify-center overflow-hidden rounded-lg bg-background pr-[69px] md:shadow-xl">
-              <DotPattern className={cn('[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]')} />
+              <DotPattern className={cn(
+                  "[mask-image:radial-gradient(300px_circle_at_center,white,transparent)]",
+                )}
+              />
             </div>
           </div>
         </main>

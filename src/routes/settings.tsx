@@ -19,13 +19,12 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  useToast,
 } from '~/components/ui'
 import { Button } from '~/components/ui/button'
+import { toast } from 'sonner'
 
 export default function Page() {
   usePageTitle('Settings')
-  const { toast } = useToast()
   const [setting, setSetting] = useAtom(settingAtom)
   const form = useForm<Setting>({
     resolver: zodResolver(settingSchema),
@@ -37,10 +36,7 @@ export default function Page() {
       accessToken: values.accessToken,
       host: values.host,
     })
-    toast({
-      description: 'Your settings has been saved.',
-      title: 'Saved!',
-    })
+    toast('Saved!', { description: 'Your settings has been saved.' })
   }
 
   return (

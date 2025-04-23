@@ -5,11 +5,10 @@ import { useAtomValue } from 'jotai'
 import { Gitlab } from '@gitbeaker/rest'
 
 import { settingAtom } from '~/atoms'
-import { useToast } from '~/components/ui'
+import { toast } from 'sonner'
 
 export const useGitlabApi = () => {
   const setting = useAtomValue(settingAtom)
-  const { toast } = useToast()
 
   return useMemo(() => {
     if (setting) {
@@ -21,10 +20,7 @@ export const useGitlabApi = () => {
         })
         return api
       }
-      toast({
-        description: 'Please configure GitLab in settings',
-        title: 'No GitLab settings',
-      })
+      toast.message('No GitLab configuration', {description: 'Please complete GitLab configuration in the settings'})
 
       return null
     }

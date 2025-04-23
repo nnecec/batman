@@ -111,7 +111,7 @@ export default function Page() {
             <Button onClick={() => fetchNextPatchProjects()} size="sm" disabled={isProjectsLoading}>
               {isProjectsLoading ?
                 <UpdateIcon className="animate-spin" />
-              : 'Inspect more repos'}
+              : 'Load more'}
             </Button>
           : null}
         </div>
@@ -156,7 +156,7 @@ export default function Page() {
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <Code text={item.data} />
+                        <Code text={item.data} highlightRaw={input}/>
                       </CardContent>
                     </Card>
                   )

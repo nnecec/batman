@@ -1,7 +1,7 @@
 import { ProjectSchema } from '@gitbeaker/core'
 import { useInfiniteQuery, useQueries, useQuery } from '@tanstack/react-query'
 
-import { useGitlabApi } from '~/utils'
+import { useGitlabApi } from '~/lib/api'
 
 export const useGroups = () => {
   const gitlab = useGitlabApi()

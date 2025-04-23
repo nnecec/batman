@@ -1,19 +1,14 @@
 import { matchQuery, MutationCache, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { toast } from '../ui'
+import { toast } from 'sonner'
 
 const queryClient = new QueryClient({
   defaultOptions: {
     mutations: {
       onError(error) {
-        toast({
-          description: error.message,
-          title: error.name,
-        })
+        toast.message(error.name, { description: error.message })
       },
       onSuccess() {
-        toast({
-          title: 'Success',
-        })
+        toast.success('Success')
       },
       retry: 0,
     },
@@ -38,24 +33,14 @@ const queryClient = new QueryClient({
     onError(error) {
       if (error.cause) {
         if ((error.cause as any).response?.status === 401) {
-          toast({
-            description: 'Please check your GitLab access token',
-            title: 'Unauthorized',
-          })
+          toast.message('Unauthorized', { description: 'Please check your GitLab access token' })
         } else if ((error.cause as any).response?.status === 403) {
-          toast({
-            description:
-              'The request requires higher privileges than provided by the access token. You should give api or read_api permission.',
-            title: 'Forbidden',
-          })
+          toast.message('Forbidden', { description: 'The request requires higher privileges than provided by the access token. You should give api or read_api permission.' })
         }
         return
       }
 
-      toast({
-        description: error.message,
-        title: error.name,
-      })
+      toast.message(error.name, { description: error.message })
     },
   }),
 })
