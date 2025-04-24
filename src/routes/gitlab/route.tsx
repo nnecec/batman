@@ -16,17 +16,17 @@ import {
   Label,
   RadioGroup,
   RadioGroupItem,
-  ScrollArea,
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
+  ScrollArea,
 } from '~/components/ui'
 
 import { CardSkeleton } from './_components/list-skeleton'
-import { useGroups, useProjectsAutoQuery, useSearchInProject } from './_components/services'
+import { useGroups, useProjectsBySearch, useSearchInProject } from './_components/services'
 
 async function handleOpenFile(url: string) {
   await Command.create('open', [url]).execute()
@@ -50,12 +50,12 @@ export default function Page() {
   } = useSearchInProject({ projectId, search })
 
   const {
-    data: projects,
-    isLoading: isProjectsLoading,
+    data: projectsData,
+    isFetching: isProjectsFetching,
     fetchNextPage: fetchNextPatchProjects,
     hasNextPage: hasNextPatchProjects,
-  } = useProjectsAutoQuery({ groupId, search })
-  const currentProject = projects?.find(project => project.id === Number(projectId))
+  } = useProjectsBySearch({ groupId, search })
+  const currentProject = {}
 
   function handleSearch() {
     if (input.length < 3) return
@@ -93,23 +93,25 @@ export default function Page() {
             </SelectContent>
           </Select>
 
-          {projects?.length && projects?.length > 0 ?
-            <ScrollArea className="max-h-[50vh] w-full rounded-md p-3 sticky">
+          {projectsData?.pages && projectsData.pages?.length > 0 ?
+            <ScrollArea className="max-h-[60vh] w-full rounded-md p-3 sticky">
               <RadioGroup value={projectId} onValueChange={value => setProjectId(value)}>
                 <div className="space-y-2">
-                  {projects.map(project => (
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value={String(project.id)} id={String(project.id)} />
-                      <Label htmlFor={String(project.id)}>{project.name}</Label>
-                    </div>
-                  ))}
+                  {projectsData.pages.map(projects =>
+                    projects.filter(Boolean).map(project => (
+                      <div className="flex items-center space-x-2" key={project.id}>
+                        <RadioGroupItem value={String(project.id)} id={String(project.id)} />
+                        <Label htmlFor={String(project.id)}>{project.name}</Label>
+                      </div>
+                    )),
+                  )}
                 </div>
               </RadioGroup>
             </ScrollArea>
           : null}
           {hasNextPatchProjects ?
-            <Button onClick={() => fetchNextPatchProjects()} size="sm" disabled={isProjectsLoading}>
-              {isProjectsLoading ?
+            <Button onClick={() => fetchNextPatchProjects()} size="sm" disabled={isProjectsFetching}>
+              {isProjectsFetching ?
                 <UpdateIcon className="animate-spin" />
               : 'Load more'}
             </Button>
@@ -156,7 +158,7 @@ export default function Page() {
                         </CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <Code text={item.data} highlightRaw={input}/>
+                        <Code text={item.data} highlightRaw={input} />
                       </CardContent>
                     </Card>
                   )

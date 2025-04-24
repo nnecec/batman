@@ -10,12 +10,8 @@ export const settingStore = new LazyStore('setting.bin')
 
 export const settingSchema = z.object({
   accessToken: z.string().min(1),
-  host: z
-    .string()
-    .url({
-      message: 'Please provide a valid url as your host.',
-    })
-    .optional(),
+  host: z.string().url({ message: 'Please provide a valid url as your host.' }).optional(),
+  opener: z.enum(['browser', 'ide']).default('browser').optional(),
 })
 
 export type Setting = z.infer<typeof settingSchema>

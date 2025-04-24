@@ -19,6 +19,11 @@ import {
   FormLabel,
   FormMessage,
   Input,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from '~/components/ui'
 import { Button } from '~/components/ui/button'
 import { toast } from 'sonner'
@@ -32,10 +37,7 @@ export default function Page() {
   })
 
   function onSubmit(values: Setting) {
-    setSetting({
-      accessToken: values.accessToken,
-      host: values.host,
-    })
+    setSetting({ accessToken: values.accessToken, host: values.host })
     toast('Saved!', { description: 'Your settings has been saved.' })
   }
 
@@ -79,6 +81,28 @@ export default function Page() {
                       The accessToken at least has <span className="font-bold text-foreground">read_api</span> or{' '}
                       <span className="font-bold text-foreground">api</span> permission.
                     </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="opener"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Open link with</FormLabel>
+                    <FormControl>
+                      <Select {...field}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Open link with" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="browser">Browser</SelectItem>
+                          <SelectItem value="ide">Ide</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
