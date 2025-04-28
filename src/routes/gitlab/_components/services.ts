@@ -1,5 +1,5 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { InfiniteData, useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import { useEffect, useRef } from 'react'
 
 import { useGitlabApi } from '~/lib/api'
 
@@ -13,11 +13,12 @@ export const useGroups = () => {
   })
 }
 
-const PageSize = 5
+const PageSize = 8
 export const useProjectsBySearch = ({ groupId, search }: { groupId: string; search: string }) => {
   const gitlab = useGitlabApi()
+  const leftTimes = useRef(PageSize)
 
-  const query = useInfiniteQuery<any, any, any, any, number>({
+  const query = useInfiniteQuery<any[], any, InfiniteData<any[]>, any, number>({
     enabled: !!search && !!gitlab && !!groupId,
     getNextPageParam: (lastPage, _, lastPageParam) => {
       return lastPage.length < PageSize ? undefined : lastPageParam + 1
@@ -58,8 +59,14 @@ export const useProjectsBySearch = ({ groupId, search }: { groupId: string; sear
   })
 
   useEffect(() => {
-    if (query.data?.pages?.at(-1)?.filter(Boolean)?.length <= 0 && query.hasNextPage) {
-      query.fetchNextPage()
+    if (leftTimes.current > 0) {
+      const len = query.data?.pages?.at(-1)?.filter(Boolean)?.length || 1
+      if (len < PageSize && query.hasNextPage) {
+        leftTimes.current -= len
+        query.fetchNextPage()
+      }
+    } else {
+      leftTimes.current = PageSize
     }
   }, [query.data?.pages?.length])
 

@@ -27,6 +27,7 @@ import {
 
 import { CardSkeleton } from './_components/list-skeleton'
 import { useGroups, useProjectsBySearch, useSearchInProject } from './_components/services'
+import { useMemo } from 'react'
 
 async function handleOpenFile(url: string) {
   await Command.create('open', [url]).execute()
@@ -55,7 +56,16 @@ export default function Page() {
     fetchNextPage: fetchNextPatchProjects,
     hasNextPage: hasNextPatchProjects,
   } = useProjectsBySearch({ groupId, search })
-  const currentProject = {}
+
+  const currentProject = useMemo(() => {
+    let currentProject
+    projectsData?.pages.map(projects =>
+      projects.filter(Boolean).map(project => {
+        if (project.id == projectId) currentProject = project
+      }),
+    )
+    return currentProject as any
+  }, [projectId, projectsData])
 
   function handleSearch() {
     if (input.length < 3) return
@@ -137,7 +147,7 @@ export default function Page() {
             </Button>
           </div>
 
-          {isSearchResultLoading ?
+          {isSearchResultLoading && !!projectId ?
             Array.from({ length: 3 }).map((_, i) => <CardSkeleton key={i} />)
           : searchResult && searchResult.pages.length > 0 ?
             <>
