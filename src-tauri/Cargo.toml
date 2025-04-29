@@ -1,6 +1,5 @@
 [package]
 name = "batman"
-version = "0.0.0"
 description = "A Tauri App for Batman"
 authors = ["nnecec"]
 edition = "2021"

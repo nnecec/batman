@@ -1,6 +1,6 @@
 {
   "productName": "batman",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "identifier": "com.nnecec.batman.app",
   "build": {
     "beforeDevCommand": "pnpm dev",
@@ -21,9 +21,7 @@
         "hiddenTitle": true
       }
     ],
-    "security": {
-      "csp": null
-    },
+    "security": { "csp": null },
     "macOSPrivateApi": true
   },
   "bundle": {
